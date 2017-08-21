@@ -4,6 +4,7 @@ Golem - run commands in an automatically discovered and captured environment.
 
 import click
 import logging
+import commands as cmds
 
 @click.group()
 @click.option('-v', '--verbose', count=True, help='Increase logging verbosity.')
@@ -19,6 +20,7 @@ def init():
     log = logging.getLogger("golem.init")
     log.info("Starting Golem")
     click.echo("Stub for init")
+    cmds.init()
     log.info("Stopping Golem")
     pass
 

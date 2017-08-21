@@ -1,0 +1,45 @@
+#+TITLE: Golem - discover, record, and run
+#+AUTHOR: Sean R. Spillane
+* What is golem?
+** Aliases
+   An /alias/ is a name and a command. When an alias is /reified/, the command
+   is run, and its STDOUT is captured under the alias name.
+
+   Once an alias is reified, its name can be used to /format/ a string. This is
+   the python format concept. The name is available in format code as ={name}=.
+   One of the golem subcommands allows the user to pass in a format string,
+   referencing /reified/ aliases, which then substitutes the names for their
+   contents, then prints the result string to STDOUT.
+
+   Golem can do more than just reify and format aliases and strings. It can also
+   run formatted strings and reifies aliases as commands. This is where the true
+   power of Golem lies.
+
+*** Reification
+    An alias is /reified/ when its command is run. There are three times when an
+    alias can be reified. First, we can reify an alias during the =golem init=
+    command. This is not meant to be run very often, and usually aliases
+    involved here don't change their values. For example, an alias describing
+    the "project root" folder would typically belong here. Each alias's result
+    is captured into a cache DB, so that we don't have to re-run them outside of
+    =golem init=. Re-running the init command re-runs these aliases, and
+    overwrites the DB cached values.
+
+    The second time an alias can run, is right before golem executes a command.
+    Golem provides a facility to run commands, defined themselves as aliases.
+    Each of these can make use of the names of previously-run aliases' names.
+    The idea is that information which changes often, such as the current
+    directory, can be encapsulated here.
+
+    The final place for an alias to run is by direct invocation from the user.
+    That is, the user requests that an alias be formatted, then submitted to the
+    shell to run. This is the primary utility of the Golem system. It allows a
+    user to set the environment, and many or most of the command-line options
+    for a given command, before running it, automatically.
+
+*** Formatting
+    An alias is /formatted/ when the ={name}=-like structures within it are
+    substituted for their values---either cached values from the DB, or
+    discovered values from the local environment. Once this substitution is
+    done, the formatted string may either be used as an alias on its own,
+    printed to STDOUT, or sent to the shell to be evaluated.

@@ -46,10 +46,19 @@ def run():
 @click.option('-e','--environment', multiple=True, help='Specify a series of format-type alias names to use as environment variables in the evaluation of this alias.')
 @click.option('-H','--set-help', default="", help='Specify the help string for this alias.')
 @click.argument('name')
-@click.argument('command')
+@click.argument('command', nargs=-1, required=True)
 def alias(target, location, environment, set_help, name, command):
     log = logging.getLogger("golem.alias")
     log.info("Starting Golem")
-    cmds.alias(target=target, location=location, environment=environment, help=set_help, name=name, command=command)
+    cmds.alias(target=target, location=location, environment=environment, help=set_help, name=name, command=' '.join(command))
     click.echo("Stub for alias")
+    log.info("Stopping Golem")
+
+@cli.command()
+@click.argument('target')
+@click.argument('name')
+def format(target, name):
+    log = logging.getLogger("golem.format")
+    log.info("Starting Golem")
+    cmds.format(target=target, name=name)
     log.info("Stopping Golem")

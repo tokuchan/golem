@@ -1,4 +1,5 @@
 from pathlib import Path
+from subprocess import check_output
 
 import click
 import logging
@@ -57,4 +58,13 @@ def alias(*, name, command, target="run", location=Path('.'), environment=None, 
     db.set(alias)
     click.echo("Stub for alias function")
     log.info("Alias updated.")
+    pass
+
+def format(target, name):
+    log = logging.getLogger("golem.format")
+    log.info("Formatting alias")
+    db = GolemDB()
+    alias = db.get(target, name)
+    log.debug(alias)
+    click.echo(check_output(alias.command, encoding='utf-8', shell=True))
     pass
